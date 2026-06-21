@@ -13,6 +13,8 @@
 | 演进与治理 | `record_signal.py`、`evolution-engine`、`governance.md` | 信号字段受限，规则走 PR/Code Owner |
 | 深度工程标准 | `standards/security-threat-model.md`、`testing-strategy.md`、`observability-and-slo.md` | Agent 按路径/任务按需加载，并在审查报告中引用 |
 | Java 代码可读性与规范 | `.editorconfig`、`standards/java-readability-and-conventions.md`、Java 路径指令 | 开发和两阶段审查共同执行；格式化/静态分析由项目构建接入 |
+| 安全与性能完成门禁 | `security_preflight.py`、`performance_preflight.py`、评估模板与门禁标准 | 本地安全阻断、性能提示；CI 性能严格阻断；例外必须有工单和审查 |
+| 使用度量与改进闭环 | `record_metric.py`、`metrics_report.py`、`export_metrics.py`、隐私标准 | 默认本地匿名事件；只导出聚合数据；演进 Agent 使用报告提出规则改进 |
 | 服务边界与部署模型 | `standards/service-boundary-and-deployment.md`、`templates/service-boundary.md` | 架构/计划/审查 Guide 强制核查聚合、数据所有权与 Deployment 映射 |
 
 ## 试点前必须本地化

@@ -11,6 +11,8 @@
 | API 兼容性 | 契约检查 | 对外契约变更 | 阻断 |
 | 迁移验证 | 迁移工具与集成测试 | Schema/数据变更 | 阻断 |
 | 依赖安全 | 批准扫描器 | 依赖变更与发布 | 高危/严重阻断 |
+| Java 高风险用法 | `scripts/security_preflight.py` | 任意 Java 变更 | 未批准 `SEC-*` 用法阻断 |
+| 性能风险 | `scripts/performance_preflight.py` + 容量评估 | 查询、导出、异步、缓存、外部调用、批处理变更 | CI 严格模式下未批准 `PERF-*` 用法阻断 |
 | 独立审查 | `code-review` Guide | 代码变更 | PASS 前阻断 |
 | 服务边界审查 | 服务边界模板 + ADR | 新服务、跨服务 CRUD、读写拆分、独立 Worker/Deployment | 未证明例外时阻断 |
 

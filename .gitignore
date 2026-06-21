@@ -5,3 +5,8 @@ target/
 build/
 .gradle/
 *.log
+__pycache__/
+*.py[cod]
+.baseline/metrics/events.jsonl
+.baseline/metrics/reports/
+.baseline/metrics/exports/

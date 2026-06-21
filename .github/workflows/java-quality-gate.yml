@@ -6,6 +6,7 @@ permissions:
   contents: read
 env:
   BASELINE_JAVA_VERSION: "21"
+  PERFORMANCE_RISK_MODE: strict
 jobs:
   verify:
     runs-on: ubuntu-latest

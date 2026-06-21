@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "隐私安全工程度量事件",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "occurred_at", "project_key", "event_type", "name", "outcome"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "occurred_at": {"type": "string", "format": "date-time"},
+    "project_key": {"type": "string", "pattern": "^[a-zA-Z0-9_-]{1,80}$"},
+    "event_type": {"enum": ["guide_run", "agent_review", "check_run", "risk_scan", "release_assessment", "evolution_proposal"]},
+    "name": {"type": "string", "pattern": "^[a-zA-Z0-9_.-]{1,100}$"},
+    "outcome": {"enum": ["passed", "failed", "blocked", "warn", "skipped"]},
+    "duration_ms": {"type": "integer", "minimum": 0, "maximum": 86400000},
+    "reason_code": {"type": "string", "pattern": "^[A-Z0-9_]{1,100}$"},
+    "severity": {"enum": ["P0", "P1", "P2"]},
+    "environment": {"enum": ["local", "ci"]}
+  }
+}
