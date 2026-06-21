@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Spring 项目画像",
+  "type": "object",
+  "required": ["schema_version", "project", "build", "runtime", "data", "quality"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "project": {"type": "object", "required": ["name", "type"]},
+    "build": {"type": "object", "required": ["tool", "verify_command", "test_command"]},
+    "runtime": {"type": "object", "required": ["java", "spring_boot"]},
+    "data": {"type": "object", "required": ["migration_tool", "databases", "messaging"]},
+    "service_boundary": {"type": "object", "required": ["default_rule", "owned_aggregates", "deployment_name", "exception_workloads"]},
+    "quality": {"type": "object", "required": ["required_ci_gates"]}
+  }
+}

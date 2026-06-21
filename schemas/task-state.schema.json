@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AI 辅助工程任务状态",
+  "type": "object",
+  "required": ["task_id", "title", "status", "risk", "acceptance_criteria", "review"],
+  "properties": {
+    "task_id": {"type": "string", "minLength": 1}, "title": {"type": "string", "minLength": 1},
+    "status": {"enum": ["DISCOVERED", "SPECIFIED", "PLANNED", "IMPLEMENTING", "VERIFIED", "REVIEWED", "READY_FOR_PR", "RELEASED", "BLOCKED"]},
+    "risk": {"enum": ["low", "medium", "high", "critical"]},
+    "acceptance_criteria": {"type": "array", "items": {"type": "string"}},
+    "review": {"type": "object", "required": ["required", "status", "rounds"]}
+  }
+}

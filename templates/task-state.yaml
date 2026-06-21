@@ -1,0 +1,14 @@
+task_id: EXAMPLE-123
+title: 替换为一个可独立验收的变更单元
+status: DISCOVERED
+risk: low
+source_documents: []
+affected_modules: []
+acceptance_criteria: []
+commands_run: []
+review:
+  required: true
+  status: NOT_STARTED
+  rounds: 0
+approvals: []
+open_risks: []

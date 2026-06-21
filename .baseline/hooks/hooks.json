@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "purpose": "工程基线的安全本地检查清单，不是平台专用的 Copilot Hook 配置。",
+  "hooks": [
+    {"name": "baseline-verify", "event": "pre-commit", "command": "scripts/verify.sh", "effect": "只读校验以及本地构建/测试"},
+    {"name": "review-required", "event": "pre-push", "command": ".baseline/hooks/check-review-required.sh", "effect": "代码修改未通过当前审查则阻止推送"},
+    {"name": "evolution-pending", "event": "session-start", "command": ".baseline/hooks/check-evolution-pending.sh", "effect": "只报告是否有待处理演进信号"}
+  ]
+}

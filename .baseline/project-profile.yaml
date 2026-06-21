@@ -1,0 +1,37 @@
+schema_version: 1
+project:
+  name: 请替换为服务名称
+  type: spring-service
+build:
+  tool: auto
+  verify_command: auto
+  test_command: auto
+runtime:
+  java: unknown
+  spring_boot: unknown
+architecture:
+  style: unknown
+  modules: []
+service_boundary:
+  default_rule: one-aggregate-lifecycle-per-service-and-deployment
+  owned_aggregates: []
+  deployment_name: unknown
+  exception_workloads: []
+data:
+  migration_tool: unknown
+  databases: []
+  messaging: []
+api:
+  style: unknown
+  contract_location: unknown
+quality:
+  formatter: unknown
+  static_analysis: []
+  dependency_scan: unknown
+  required_ci_gates:
+    - compile
+    - unit-test
+    - baseline-structure
+sources:
+  profile_verified_at: null
+  evidence: []
