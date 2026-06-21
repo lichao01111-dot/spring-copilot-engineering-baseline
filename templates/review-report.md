@@ -19,10 +19,12 @@
 |---|---|---|---|
 | 架构 |  | PASS / FAIL |  |
 | 安全与授权 |  | PASS / FAIL |  |
+| 安全风险扫描、例外与威胁模型 |  | PASS / FAIL |  |
 | 事务、并发与幂等 |  | PASS / FAIL |  |
 | 数据库与迁移 |  | PASS / FAIL |  |
 | 服务边界与 Deployment 映射 |  | PASS / FAIL |  |
 | 可观测性与资源使用 |  | PASS / FAIL |  |
+| 性能预算、风险扫描与容量证据 |  | PASS / FAIL |  |
 | 测试真实性 |  | PASS / FAIL |  |
 | 接口/配置真实性 |  | PASS / FAIL |  |
 

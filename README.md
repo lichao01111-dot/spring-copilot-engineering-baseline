@@ -23,6 +23,10 @@
 
 Java 代码可读性采用“可读规则 + 自动 formatter + 语义审查”的组合，详见 [Java/Spring 可读性与实战编码规范](standards/java-readability-and-conventions.md) 与 [构建工具接入策略](standards/java-tooling-integration.md)。
 
+安全与性能采用“风险扫描 + 评估模板 + 审查/CI 门禁”的组合，详见 [安全与性能完成门禁](standards/security-and-performance-gates.md)。
+
+基线使用情况采用“本地匿名事件 + 聚合报告 + 显式内部导出”的组合，详见 [工程度量使用说明](docs/METRICS.md) 与 [度量与隐私治理](standards/metrics-and-privacy.md)。
+
 ## 明确不自动执行
 
 - 推送、合并、发布、部署、生产数据修改和权限/密钥变更。

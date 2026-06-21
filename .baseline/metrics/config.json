@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "enabled": true,
+  "project_key": "replace-with-anonymous-project-key",
+  "retention_days": 90,
+  "allow_upload": false,
+  "endpoint": null
+}
