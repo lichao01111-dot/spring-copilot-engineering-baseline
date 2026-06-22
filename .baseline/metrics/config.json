@@ -4,5 +4,5 @@
   "project_key": "example-order-api",
   "retention_days": 90,
   "allow_upload": false,
-  "endpoint": null
+  "endpoint": "https://metrics.example.internal/engineering-baseline/v1/reports"
 }
