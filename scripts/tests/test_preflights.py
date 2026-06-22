@@ -16,10 +16,10 @@ PERFORMANCE = BASELINE_ROOT / "scripts/performance_preflight.py"
 
 
 class PreflightTest(unittest.TestCase):
-    def run_scan(self, script: Path, source: str, mode: str | None = None) -> subprocess.CompletedProcess[str]:
+    def run_scan(self, script: Path, source: str, mode: str | None = None, relative_path: str = "src/main/java/RiskyCode.java") -> subprocess.CompletedProcess[str]:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
-            source_path = root / "src/main/java/RiskyCode.java"
+            source_path = root / relative_path
             source_path.parent.mkdir(parents=True)
             source_path.write_text(source, encoding="utf-8")
             environment = os.environ | {"BASELINE_SCAN_ROOT": str(root)}
@@ -55,6 +55,12 @@ class PreflightTest(unittest.TestCase):
         source = "// baseline-risk-allow: PERF-UNBOUNDED-FIND-ALL REPORT-238\nclass RiskyCode { void run() { repository.findAll(); } }"
         result = self.run_scan(PERFORMANCE, source, "strict")
         self.assertEqual(0, result.returncode, result.stderr)
+
+    def test_performance_scan_skips_test_source_directories(self) -> None:
+        source = "class RiskyCode { void run() { repository.findAll(); Thread.sleep(10); } }"
+        result = self.run_scan(PERFORMANCE, source, "strict", "src/test/java/RiskyCode.java")
+        self.assertEqual(0, result.returncode, result.stderr)
+        self.assertIn("未发现需评估", result.stdout)
 
 
 if __name__ == "__main__":

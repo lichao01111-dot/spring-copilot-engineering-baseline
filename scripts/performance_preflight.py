@@ -8,6 +8,7 @@ import sys
 ROOT = Path(os.environ.get("BASELINE_SCAN_ROOT", Path(__file__).resolve().parents[1])).resolve()
 MODE = os.environ.get("PERFORMANCE_RISK_MODE", "warn").lower()
 SKIP_PARTS = {".git", "target", "build", ".gradle", "node_modules"}
+TEST_SOURCE_NAMES = {"test", "integrationTest", "functionalTest", "testFixtures"}
 SOURCE_SUFFIXES = {".java", ".kt", ".kts"}
 RULES = {
     "PERF-UNBOUNDED-FIND-ALL": re.compile(r"\.findAll\s*\(\s*\)"),
@@ -21,9 +22,14 @@ ALLOW_PREFIX = re.compile(r"baseline-risk-allow:\s*(PERF-[A-Z-]+)\s+([A-Z]+-\d+)
 def allowed(rule: str, lines: list[str], index: int) -> bool:
     return any((match := ALLOW_PREFIX.search(line)) and match.group(1) == rule for line in lines[max(0, index - 1):index + 1])
 
+
+def is_test_source(path: Path) -> bool:
+    parts = path.relative_to(ROOT).parts
+    return any(parts[index] == "src" and parts[index + 1] in TEST_SOURCE_NAMES for index in range(len(parts) - 1))
+
 findings: list[str] = []
 for path in ROOT.rglob("*"):
-    if not path.is_file() or any(part in SKIP_PARTS for part in path.parts) or path.suffix not in SOURCE_SUFFIXES:
+    if not path.is_file() or any(part in SKIP_PARTS for part in path.parts) or path.suffix not in SOURCE_SUFFIXES or is_test_source(path):
         continue
     try:
         lines = path.read_text(encoding="utf-8").splitlines()

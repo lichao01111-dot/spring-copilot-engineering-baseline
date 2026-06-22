@@ -32,6 +32,9 @@ quality:
     - compile
     - unit-test
     - baseline-structure
+metrics:
+  project_key: example-order-api
+  collection: local-only
 sources:
   profile_verified_at: null
   evidence: []
