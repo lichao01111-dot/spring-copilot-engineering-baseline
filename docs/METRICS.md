@@ -2,7 +2,7 @@
 
 ## 启用本地采集
 
-编辑 `.baseline/metrics/config.json`，将 `project_key` 改为不含客户、仓库 URL 或人员信息的内部别名，例如 `order-core-a`。默认采集已启用，但只保存在本地 Git 忽略文件中。
+`.baseline/metrics/config.json` 已提供可运行示例：`project_key` 为 `example-order-api`、原始事件保留 90 天、上传关闭。引入真实服务时，必须将它与 `.baseline/project-profile.yaml` 中的 `metrics.project_key` 同步改为不含客户、仓库 URL 或人员信息的稳定内部别名，例如 `order-core-a`。默认采集已启用，但只保存在本地 Git 忽略文件中。
 
 `scripts/verify.sh` 与 `scripts/test.sh` 会自动记录成功/失败和粗粒度耗时。其余工作由 Agent 在完成时显式记录：
 

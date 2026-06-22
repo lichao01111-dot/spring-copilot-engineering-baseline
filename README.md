@@ -17,6 +17,33 @@
 - 基线校验、构建与测试包装、密钥扫描、安全 Git Hook 和 GitHub Actions 模板。
 - Java/Spring、数据库迁移、测试真实性、发布制品验证与治理标准。
 
+## 目录结构与 Copilot 映射
+
+```text
+.
+├── .github/
+│   ├── copilot-instructions.md       # 所有 Copilot 请求的仓库级规则
+│   ├── instructions/                 # 按文件路径自动加载：Java、测试、数据库、安全
+│   ├── agents/                       # 在 VS Code Copilot Agent 下拉菜单中选择的角色
+│   │   ├── spring-orchestrator       # 路由任务、维护状态、收集证据
+│   │   ├── code-reviewer             # 独立两阶段审查，只读不修改
+│   │   └── evolution-runner          # 度量/信号 → 规则提案，不直接生效
+│   └── skills/                       # Copilot 按任务相关性加载的 11 个 Guide
+│       └── <skill>/references/       # 仅复杂任务按需加载的深度手册
+├── .baseline/
+│   ├── project-profile.yaml          # 当前 Spring 服务的真实技术画像
+│   ├── task-state/                   # 跨会话任务状态与证据
+│   ├── hooks/                        # Git 门禁与会话提醒脚本
+│   ├── evolution/                    # 匿名信号与待审提案
+│   └── metrics/                      # Git 忽略的本地匿名度量事件
+├── standards/                        # 工程、安全、性能、治理的权威标准
+├── templates/                        # 规格、ADR、审查、迁移、发布和评估模板
+├── scripts/                          # 构建、测试、风险扫描、度量与校验脚本
+└── .github/workflows/                # GitHub Actions 质量门禁模板
+```
+
+`.github` 是 Copilot 的入口，不是普通文档目录：全局规则自动生效；路径规则随编辑文件匹配；Agent 由开发者在 Chat 下拉菜单选择；Skills 由 Agent Mode 按相关性加载或在提示中显式要求使用。
+
 ## 深度知识的加载方式
 
 每个 Guide 保持短小，避免挤占所有任务的上下文；涉及复杂工作时，Guide 会按需加载同目录 `references/` 内的工程手册。参考手册覆盖项目发现、需求澄清、HTTP/事件契约、Spring 分层与事务、Phase 规划、JPA/测试矩阵、迁移发布、证据排障、两阶段审查、制品发布和规则治理。
