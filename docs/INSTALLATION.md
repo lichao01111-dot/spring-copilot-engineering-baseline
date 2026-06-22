@@ -1,5 +1,48 @@
 # 在 VS Code + GitHub Copilot 中启用
 
+## Quickstart：15 分钟跑通第一个服务
+
+以下流程适用于一个已有的 Maven 或 Gradle Spring 服务。先在该服务中创建独立分支；不要直接覆盖已有 `.github/` 规则。
+
+```sh
+# 1. 在目标 Spring 服务根目录创建接入分支
+git switch -c chore/add-copilot-engineering-baseline
+
+# 2. 克隆基线到临时目录
+git clone https://github.com/lichao01111-dot/spring-copilot-engineering-baseline.git /tmp/spring-copilot-baseline
+
+# 3. 复制基线目录；若目标仓库已有 .github/，请手工合并而不是覆盖
+cp -R /tmp/spring-copilot-baseline/.baseline .
+cp -R /tmp/spring-copilot-baseline/scripts .
+cp -R /tmp/spring-copilot-baseline/templates .
+cp -R /tmp/spring-copilot-baseline/standards .
+cp -R /tmp/spring-copilot-baseline/schemas .
+cp /tmp/spring-copilot-baseline/.editorconfig .
+```
+
+接着将以下内容手工合并到现有 `.github/`：`copilot-instructions.md`、`instructions/`、`agents/`、`skills/`、`workflows/` 和 `CODEOWNERS.example`。这是刻意设计的人工步骤，避免覆盖团队已有 CI、Code Owner 与 Copilot 规则。
+
+```sh
+# 4. 赋予脚本执行权限，并完成首次验证
+chmod +x scripts/*.sh scripts/*.py .baseline/hooks/*
+scripts/verify.sh
+scripts/test.sh
+
+# 5. 可选：安装本地 Git 门禁
+scripts/install-git-hooks.sh
+```
+
+首次 `verify.sh` 在未发现构建文件时只校验基线结构；在真实 Spring 服务中会自动调用 Maven 或 Gradle。若命令失败，先修复目标项目已有构建问题，不要通过删除门禁绕过。
+
+最后在 VS Code 打开服务根目录，确认 **Code Generation: Use Instruction Files** 已启用。在 Copilot Chat 中选择 `spring-orchestrator`，输入：
+
+```text
+使用 spring-discovery 检查当前仓库。
+只更新 .baseline/project-profile.yaml；为每个关键字段列出证据路径，未知项保留 unknown。
+```
+
+成功标准：`project-profile.yaml` 已填充真实 JDK、构建/测试命令、模块、数据库/迁移工具；`scripts/verify.sh` 与 `scripts/test.sh` 可运行；Copilot Chat 的 References 中能看到 `.github/copilot-instructions.md`。
+
 ## 1. 引入基线
 
 将 `.github/`、`.baseline/`、`scripts/`、`templates/`、`standards/` 和 `schemas/` 复制或以 Git 子模块方式引入目标 Spring 仓库。保留目标仓库原有规则；冲突由工程负责人合并，不能静默覆盖。

@@ -2,7 +2,20 @@
 
 ## 启用本地采集
 
-`.baseline/metrics/config.json` 已提供可运行示例：`project_key` 为 `example-order-api`、原始事件保留 90 天、上传关闭。引入真实服务时，必须将它与 `.baseline/project-profile.yaml` 中的 `metrics.project_key` 同步改为不含客户、仓库 URL 或人员信息的稳定内部别名，例如 `order-core-a`。默认采集已启用，但只保存在本地 Git 忽略文件中。
+`.baseline/metrics/config.json` 已提供完整可运行示例：
+
+```json
+{
+  "schema_version": 1,
+  "enabled": true,
+  "project_key": "example-order-api",
+  "retention_days": 90,
+  "allow_upload": false,
+  "endpoint": "https://metrics.example.internal/engineering-baseline/v1/reports"
+}
+```
+
+引入真实服务时，必须将 `project_key` 与 `.baseline/project-profile.yaml` 中的 `metrics.project_key` 同步改为不含客户、仓库 URL 或人员信息的稳定内部别名，例如 `order-core-a`。`retention_days` 需符合公司数据保留政策。默认采集已启用，但只保存在本地 Git 忽略文件中；`allow_upload` 默认关闭，即使存在示例 endpoint 也不会访问网络。
 
 `scripts/verify.sh` 与 `scripts/test.sh` 会自动记录成功/失败和粗粒度耗时。其余工作由 Agent 在完成时显式记录：
 
@@ -37,7 +50,7 @@ python3 scripts/metrics_report.py --format json --output .baseline/metrics/repor
 ```json
 {
   "allow_upload": true,
-  "endpoint": "https://metrics.example.internal/engineering-baseline/v1/reports"
+  "endpoint": "https://metrics.company.internal/engineering-baseline/v1/reports"
 }
 ```
 
