@@ -43,6 +43,47 @@ scripts/install-git-hooks.sh
 
 成功标准：`project-profile.yaml` 已填充真实 JDK、构建/测试命令、模块、数据库/迁移工具；`scripts/verify.sh` 与 `scripts/test.sh` 可运行；Copilot Chat 的 References 中能看到 `.github/copilot-instructions.md`。
 
+## Quickstart：多微服务 workspace
+
+如果团队有十几个微服务，不必先把仓库物理合并。可以建立一个虚拟 monorepo：
+
+```sh
+mkdir company-workspace
+cd company-workspace
+
+# 示例：把多个服务克隆到同一本地 workspace
+mkdir services
+git clone git@github.com:your-org/order-service.git services/order-service
+git clone git@github.com:your-org/payment-service.git services/payment-service
+git clone git@github.com:your-org/inventory-service.git services/inventory-service
+
+# 从基线复制 workspace 模板
+cp /tmp/spring-copilot-baseline/templates/agents-root.md ./AGENTS.md
+cp /tmp/spring-copilot-baseline/templates/workspace-map.md ./workspace-map.md
+cp /tmp/spring-copilot-baseline/templates/service-context.md ./services/order-service/SERVICE.md
+cp /tmp/spring-copilot-baseline/templates/service-context.md ./services/payment-service/SERVICE.md
+cp /tmp/spring-copilot-baseline/templates/service-context.md ./services/inventory-service/SERVICE.md
+```
+
+然后填写 `AGENTS.md` 和 `workspace-map.md`：前者只放 Agent 路由和强约束，后者放服务路径、职责、数据所有权、Deployment、Owner、OpenAPI/Pact 位置和验证命令。每个服务的 `SERVICE.md` 只写本服务事实，不复制全局规则。
+
+在 Copilot Chat 中处理跨服务需求时，先让 Agent 使用：
+
+```text
+使用 multi-service-discovery 分析这个 user story 的服务影响面。
+先读取 workspace-map.md 和相关 SERVICE.md，不要直接改代码。
+输出直接修改服务、只需契约验证服务、必跑验证命令和需要人工确认的问题。
+```
+
+如果涉及接口、事件或 DTO 变化，再继续：
+
+```text
+使用 contract-test-builder 为这次跨服务协议变化设计验证闭环。
+要求列出 OpenAPI/Pact/mock/provider verification 文件位置和实际命令。
+```
+
+多服务 workspace 不改变服务拆分原则。同一业务聚合的完整生命周期仍应归属一个服务和一个 API Deployment；workspace 只是给 Agent 提供全局视图和验证闭环。
+
 ## 1. 引入基线
 
 将 `.github/`、`.baseline/`、`scripts/`、`templates/`、`standards/` 和 `schemas/` 复制或以 Git 子模块方式引入目标 Spring 仓库。保留目标仓库原有规则；冲突由工程负责人合并，不能静默覆盖。

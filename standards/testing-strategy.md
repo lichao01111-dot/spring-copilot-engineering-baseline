@@ -10,6 +10,21 @@
 | 契约测试 | 对外 API/事件兼容性 | 消费者或公开契约变更 | 业务逻辑完整性 |
 | 制品/冒烟测试 | 打包后启动、配置、探针 | 发布前 | 功能边界覆盖 |
 
+## 多服务契约测试
+
+跨微服务 user story 不能把完整端到端环境作为唯一验证方式。每个服务应提供至少一种可在本地或 CI 中重复执行的服务间验证：
+
+- OpenAPI mock server 或基于 OpenAPI 的 client/provider 测试。
+- Pact consumer contract 与 provider verification。
+- AsyncAPI、JSON Schema、Avro 或 Protobuf 的兼容性检查。
+- WireMock/Testcontainers 等受契约约束的 stub。
+
+契约测试的目标是证明“调用方依赖的协议”和“提供方实际支持的协议”一致。它不替代领域规则测试、事务测试和权限测试。
+
+以下变更必须更新契约并运行契约验证：请求/响应字段、错误码、状态码、事件字段、topic/queue、幂等 key、分页/排序语义、认证头和 trace/correlation id 约定。
+
+Mock 必须来自契约文件或受契约测试约束，不允许手写一个永远返回成功的假 client 作为跨服务验证。
+
 ## 真实性判据
 
 - 缺陷测试必须在修复前可失败，或清楚说明为什么无法回放旧版本。

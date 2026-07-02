@@ -23,24 +23,26 @@ flowchart TD
 | 层 | 职责 | 工件 |
 |---|---|---|
 | 调度层 | 识别任务、选择 Guide、维护状态与审批边界 | `spring-orchestrator`、全局指令 |
-| 引导层 | 目标、验收、输入输出和限制 | 11 个 Guide、专项规则、模板 |
+| 引导层 | 目标、验收、输入输出和限制 | 13 个 Guide、专项规则、模板 |
 | 执行层 | 编码、测试、迁移与文档 | 主 Agent、临时执行 Agent、脚本 |
 | 检查层 | 客观质量事实与阻断 | Hook、Maven/Gradle、CI、扫描器 |
 | 演进层 | 信号归纳、规则精简和受控提案 | `evolution-runner`、signals、proposals |
 
-## 11 个 Guide
+## 13 个 Guide
 
 1. `spring-discovery`：项目画像。
 2. `requirements-to-spec`：需求与验收标准。
 3. `api-contract-builder`：OpenAPI/事件契约与兼容性。
-4. `spring-architecture`：ADR、模块、事务与安全边界。
-5. `dev-planner`：独立验证的 Phase。
-6. `spring-builder`：符合 Spring 约定的实现。
-7. `database-migration`：Flyway/Liquibase 与安全发布。
-8. `bug-fixer`：证据驱动修复。
-9. `code-review`：Stage 1 做对了吗、Stage 2 做好了吗。
-10. `release-builder`：制品、隐私审计、回滚准备。
-11. `evolution-engine`：反馈归纳、规则新增/退休提案。
+4. `multi-service-discovery`：monorepo/虚拟 monorepo 的服务影响面、边界和上下文加载。
+5. `contract-test-builder`：OpenAPI/Pact/mock/provider verification 的契约验证闭环。
+6. `spring-architecture`：ADR、模块、事务与安全边界。
+7. `dev-planner`：独立验证的 Phase。
+8. `spring-builder`：符合 Spring 约定的实现。
+9. `database-migration`：Flyway/Liquibase 与安全发布。
+10. `bug-fixer`：证据驱动修复。
+11. `code-review`：Stage 1 做对了吗、Stage 2 做好了吗。
+12. `release-builder`：制品、隐私审计、回滚准备。
+13. `evolution-engine`：反馈归纳、规则新增/退休提案。
 
 ## 深度知识与上下文控制
 
@@ -60,6 +62,8 @@ flowchart TD
 默认采用“一个业务聚合的完整生命周期，一个 Spring 服务，一个 API Deployment”：创建、查询、修改、删除/归档、状态转换、权限、审计和数据所有权放在同一服务。Deployment 可以有多个 Pod 副本；读模型、缓存、Command/Query 代码分层不构成服务拆分。
 
 禁止按 CRUD、Controller、表或前端页面拆服务。出现独立 Worker、读写分离、合规隔离、独立 SLO 或独立团队所有权时，必须以真实指标或组织/合规事实为证据，完成 ADR 与服务边界模板，并定义数据、事件、兼容性和回退策略。详细规则见 [服务边界与单 Deployment 规则](../standards/service-boundary-and-deployment.md)。
+
+跨多个已有微服务的 user story 采用 workspace 上下文工程：根 `workspace-map.md` 负责服务路由，每个服务 `SERVICE.md` 负责职责/数据/契约/验证细节，OpenAPI/Pact/事件 schema 负责机器可读协议，mock server 与契约测试负责“编码 → 验证 → 修正”的闭环。详细规则见 [多微服务 Workspace 与上下文工程标准](../standards/multi-service-workspace.md)。
 
 ## 状态、证据与自主目标
 

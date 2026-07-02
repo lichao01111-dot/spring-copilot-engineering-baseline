@@ -4,7 +4,7 @@
 |---|---|---|
 | 全局指令与安全边界 | `.github/copilot-instructions.md` | 结构校验 |
 | 专项规范 | `.github/instructions/` | 结构校验 |
-| 11 个 Guide 与深度手册 | `.github/skills/*/SKILL.md`、各 `references/` | 校验数量、front matter、中文目标/验收/边界标题及每个 Guide 的按需参考 |
+| 13 个 Guide 与深度手册 | `.github/skills/*/SKILL.md`、各 `references/` | 校验数量、front matter、中文目标/验收/边界标题及每个 Guide 的按需参考 |
 | 3 个隔离 Agent | `.github/agents/` | 结构校验 |
 | 规格、状态、计划、审查、迁移、发布与 Goal | `templates/`、`.baseline/task-state/` | 真实任务创建工件并由审查引用 |
 | 两阶段审查 | `code-review`、`code-reviewer`、审查模板 | 每个代码变更生成独立报告 |
@@ -16,6 +16,8 @@
 | 安全与性能完成门禁 | `security_preflight.py`、`performance_preflight.py`、评估模板与门禁标准 | 本地安全阻断、性能提示；CI 性能严格阻断；例外必须有工单和审查 |
 | 使用度量与改进闭环 | `record_metric.py`、`metrics_report.py`、`export_metrics.py`、隐私标准 | 默认本地匿名事件；只导出聚合数据；演进 Agent 使用报告提出规则改进 |
 | 服务边界与部署模型 | `standards/service-boundary-and-deployment.md`、`templates/service-boundary.md` | 架构/计划/审查 Guide 强制核查聚合、数据所有权与 Deployment 映射 |
+| 多服务 workspace 上下文工程 | `standards/multi-service-workspace.md`、`templates/agents-root.md`、`templates/workspace-map.md`、`templates/service-context.md`、`multi-service-discovery` | 存在 `workspace-map.md` 时校验服务 `SERVICE.md` 引用和核心标题 |
+| 契约测试闭环 | `contract-test-builder`、`testing-strategy.md`、OpenAPI/Pact/mock/provider verification 规则 | API/事件变更必须记录契约文件、调用方/提供方验证和真实命令 |
 
 ## 试点前必须本地化
 

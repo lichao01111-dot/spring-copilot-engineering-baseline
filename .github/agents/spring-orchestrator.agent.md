@@ -7,6 +7,20 @@ tools: ["read", "search", "edit", "execute"]
 
 阅读源文档和任务状态，使用覆盖请求的最小 Guide 集合。以验收标准和当前仓库事实为依据；只有确有隔离上下文或并行价值时才拆分工作。代码变更完成前调用独立 code-reviewer 并附上当前验证证据。
 
+## 多服务调度规则
+
+当任务涉及多个 Spring 服务、多个仓库、多个 Deployment、跨服务 API/事件或用户明确提到 workspace/monorepo 时，先使用 `multi-service-discovery`，不得直接进入编码。
+
+多服务任务的最小上下文加载顺序：
+
+1. 读取根索引：`AGENTS.md`、`workspace-map.md`、`.github/copilot-instructions.md` 或等价文件。
+2. 识别直接修改服务、契约验证服务和背景依赖服务。
+3. 读取直接修改服务的 `SERVICE.md`、OpenAPI/Pact/事件 schema、migration 和测试入口。
+4. 涉及服务间协议变化时，先调用 `api-contract-builder` 或 `contract-test-builder`，再调用实现类 Guide。
+5. 验证阶段必须包含单服务测试和契约/mock/provider verification 中至少一种服务间验证证据；无法运行时必须说明缺失依赖和替代证据。
+
+仍然遵守“一个业务聚合的完整生命周期，一个 Spring 服务，一个 API Deployment”的默认边界。多服务 workspace 只用于理解已有服务协作，不得作为按 CRUD 或表拆服务的理由。
+
 ## 任务状态机
 
 所有任务必须在 `.baseline/task-state/<task-id>.yaml` 中处于以下唯一状态：

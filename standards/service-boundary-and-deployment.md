@@ -52,3 +52,5 @@
 ## 服务所有权不变量
 
 每个服务边界必须记录：聚合及状态机、对外命令和查询、数据 Schema 所有权、权限主体、事件生产/消费、Deployment 名称、负责人、SLO、发布与回退责任。跨服务只能通过公开 API 或版本化事件通信，不能共享 Repository、Entity 或业务表写权限。
+
+在多微服务 workspace 中，这些事实必须落到根 `workspace-map.md` 和每个服务的 `SERVICE.md`。Agent 可以使用 workspace 获得全局视图，但不能因为“能看到多个服务代码”就扩大服务边界或绕过公开契约。
